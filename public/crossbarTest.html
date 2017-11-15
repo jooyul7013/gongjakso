@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <script src = "path-data-polyfill.js"></script>
+<script src = "jquery-3.1.0.min.js"></script>
+</head>
+<body>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 13.0.0, SVG Export Plug-In  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+   <!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+ <table>
+  <tr>
+    <th>Height</th>
+    <td>
+      <form action="">
+        <input type="range" id = "king" />
+      </form>
+    </td>
+    <th>Crossbar</th>
+    <td>
+      <form action="">
+        <input type="range" id = "king2" />
+      </form>
+    </td>
+    <th>Contrast</th>
+    <td>
+      <form action="">
+        <input type="range" id = "king3" />
+      </form>
+    </td>
+  </tr>
+</table>
+<svg id = "root" version="1.1"
+    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+    x="0px" y="0px" viewBox="0 0 1200 1200" enable-background="new 0 0 612 612" xml:space="preserve">
+
+  <!-- ㄱ -->
+  <path stroke="white" stroke-width="2"fill="none" id= "r_bone"
+     d= "M89 802 L303.33 802 L303.33 502" />
+  <path stroke="blue" stroke-width="2"fill="none" id= "r_boneOutput"
+    d= "M89 802 L303.33 802 L303.33 502" />
+  <path stroke="black" stroke-width="2"fill="none" id= "r_outline"
+     d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+  <!-- ㅏ -->
+  <path stroke="red" stroke-width="2"fill="none" id= "k_bone"
+          d= "M507 809 L507 243 M507 611 L618 611 "/>
+  <path stroke="blue" stroke-width="2"fill="none" id= "k_boneOutput"
+          d= "M507 809 L507 243 M507 611 L618 611 "/>
+  <path stroke="black" stroke-width="2"fill="none" id= "k_outline"
+          d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+
+</svg>
+
+
+</head>
+<body>
+
+
+  <script type="text/javascript">
+
+    function Letter(id){
+      this.boneElement = document.getElementById(id+"_bone");
+      this.boneOutputElement = document.getElementById(id+"_boneOutput");
+      this.outlineElement = document.getElementById(id+"_outline");
+
+      this.boneData = this.boneElement.getPathData();
+      this.boneOutputData = this.boneOutputElement.getPathData();
+      this.outlineData = this.outlineElement.getPathData();
+
+      this.initialBoneData = {};
+      this.initialBoneData.x=[];
+      this.initialBoneData.y=[];
+
+      console.log(this.boneData);
+      for(var i = 0 ; i < this.boneData.length ; i++)
+      {
+        this.initialBoneData.x[i] = this.boneData[i].values[0];
+        this.initialBoneData.y[i] = this.boneData[i].values[1];
+      }
+      console.log(this.initialBoneData);
+      this.character = id;
+      this.outputSize = 0.2;
+
+
+      this.setSize = function(){
+        /*for(var i =0; i< this.outlineData.length;i++)
+        {
+          this.outlineData[i].values[1] *= size;
+          this.outlineData[i].values[0] *= size;
+        }*/
+
+          for(var i=0;i<this.outlineData.length;i++)
+          {
+            this.outlineData[i].values[0] *= this.outputSize;
+            this.outlineData[i].values[1] *= this.outputSize;
+          }
+          for(var i=0;i<this.boneOutputData.length;i++)
+          {
+            this.boneOutputData[i].values[0] *= this.outputSize;
+            this.boneOutputData[i].values[1] *= this.outputSize;
+          }
+
+      }
+
+      this.crossbarStemindex = [];
+
+      this.crossbarChange = function(crossbar){
+
+        for(var i=0; i<this.crossbarStemindex.length; i++)
+        {
+          this.boneData[this.crossbarStemindex[i]].values[1] = this.initialBoneData.y[this.crossbarStemindex[i]] + (crossbar-50)*2;
+
+        }
+
+          this.changeWeight(weight);
+      }
+      //this.changeWeight = function(){
+      //}
+
+    }
+
+    var r = new Letter("r");
+    r.crossbarStemindex.push(0);
+    r.crossbarStemindex.push(1);
+    r.changeWeight = function(weight){
+
+      //this.boneData[0].values[1] = firstStem0_y - (weight - 50) * 39/50;
+      //this.boneData[1].values[1] = this.boneData[0].values[1];
+
+      this.outlineData[0].values[0] = this.boneData[0].values[0]- 39-(weight-50)*39/50/2 * contrast_x;
+      this.outlineData[0].values[1] = this.boneData[0].values[1] * contrast_y ;  // + 39+ (weight-50) * 39/50;
+
+      this.outlineData[1].values[0] = this.boneData[2].values[0]+weight*(80/50)/3;
+      this.outlineData[1].values[1] = this.outlineData[0].values[1];
+
+      this.outlineData[2].values[0] = this.outlineData[1].values[0];
+      this.outlineData[2].values[1] = (this.boneData[2].values[1]-40-(weight-50)*40/50/2);
+
+      this.outlineData[3].values[0] = this.boneData[2].values[0]-(weight*(80/50*2/3));
+      this.outlineData[3].values[1] = this.outlineData[2].values[1];
+
+      this.outlineData[4].values[0] = this.outlineData[3].values[0];
+      this.outlineData[4].values[1] = this.boneData[1].values[1]-weight*78/50;
+
+      this.outlineData[5].values[0] = this.outlineData[0].values[0];
+      this.outlineData[5].values[1] = this.outlineData[4].values[1];
+
+
+
+      for(var i=0;i<this.boneOutputData.length;i++)
+      {
+        this.boneOutputData[i].values[0] = this.boneData[i].values[0] //* size;
+        this.boneOutputData[i].values[1] = this.boneData[i].values[1] //* size;
+      }
+
+      for(var i=0; i<this.outlineData.length; i++)
+      {
+        if(this.outlineData[i].values[1]>500)
+          this.outlineData[i].values[1] = 500 - (this.outlineData[i].values[1]-500);
+        else {
+          this.outlineData[i].values[1] = 500 + (500 - this.outlineData[i].values[1]);
+        }
+      }
+
+      for(var i=0; i<this.boneOutputData.length; i++)
+      {
+        if(this.boneOutputData[i].values[1]>500)
+          this.boneOutputData[i].values[1] = 500 - (this.boneOutputData[i].values[1]-500);
+        else {
+          this.boneOutputData[i].values[1] = 500 + (500 - this.boneOutputData[i].values[1]);
+        }
+      }
+      this.setSize();
+      this.boneElement.setPathData(this.boneData);
+      this.boneOutputElement.setPathData(this.boneOutputData);
+      this.outlineElement.setPathData(this.outlineData);
+
+    }
+
+
+    var k = new Letter('k');
+    k.crossbarStemindex.push(2);
+    k.crossbarStemindex.push(3);
+    k.changeWeight = function(weight){
+      this.outlineData[0].values[0] = this.boneData[0].values[0]-weight*40/50;
+      this.outlineData[0].values[1] = this.boneData[0].values[1]+weight*40/50/2;
+
+      this.outlineData[1].values[0] = this.boneData[0].values[0]+weight*40/50;
+      this.outlineData[1].values[1] = this.outlineData[0].values[1];
+
+      this.outlineData[2].values[0] = this.outlineData[1].values[0];
+      this.outlineData[2].values[1] = this.boneData[2].values[1]+weight*40/50;
+
+      this.outlineData[3].values[0] = this.boneData[3].values[0]+weight*39/50/2;
+      this.outlineData[3].values[1] = this.outlineData[2].values[1];
+
+      this.outlineData[4].values[0] = this.outlineData[3].values[0];
+      this.outlineData[4].values[1] = this.boneData[2].values[1]-weight*40/50;
+
+      this.outlineData[5].values[0] = this.outlineData[1].values[0];
+      this.outlineData[5].values[1] = this.outlineData[4].values[1];
+
+      this.outlineData[6].values[0] = this.outlineData[1].values[0];
+      this.outlineData[6].values[1] = this.boneData[1].values[1]-weight*40/50/2;
+
+      this.outlineData[7].values[0] = this.outlineData[0].values[0];
+      this.outlineData[7].values[1] = this.outlineData[6].values[1];
+
+      for(var i=0;i<this.boneOutputData.length;i++)
+      {
+        this.boneOutputData[i].values[0] = this.boneData[i].values[0] //* size;
+        this.boneOutputData[i].values[1] = this.boneData[i].values[1] //* size;
+      }
+
+
+      for(var i=0; i<this.outlineData.length; i++)
+      {
+        if(this.outlineData[i].values[1]>500)
+          this.outlineData[i].values[1] = 500 - (this.outlineData[i].values[1]-500);
+        else {
+          this.outlineData[i].values[1] = 500 + (500 - this.outlineData[i].values[1]);
+        }
+      }
+
+      for(var i=0; i<this.boneOutputData.length; i++)
+      {
+        if(this.boneOutputData[i].values[1]>500)
+          this.boneOutputData[i].values[1] = 500 - (this.boneOutputData[i].values[1]-500);
+        else {
+          this.boneOutputData[i].values[1] = 500 + (500 - this.boneOutputData[i].values[1]);
+        }
+      }
+      this.setSize();
+      this.boneElement.setPathData(this.boneData);
+      this.boneOutputElement.setPathData(this.boneOutputData);
+      this.outlineElement.setPathData(this.outlineData);
+
+
+    }
+
+    function Character(consonant, vowel, finalConsonant){
+      this.consonant = $.extend(true, {}, consonant);
+      this.vowel = $.extend(true, {}, vowel);
+      this.finalConsonant = $.extend(true, {}, finalConsonant);
+
+      this.firstX = 0;
+      this.firstY = 0;
+
+      this.toString = function(){
+        return consonant.character + vowel.character + finalConsonant.character;
+      }
+
+      this.setFirstX = function(x){
+        this.firstX = x;
+
+        if(this.consonant)
+        {
+          for(var i=0; i<this.consonant.boneData.length; i++){
+            this.consonant.boneData[i].values[0] +=this.firstX;
+          }
+        }
+
+        if(this.vowel)
+        {
+          for(var i=0; i<this.vowel.boneData.length; i++){
+            this.vowel.boneData[i].values[0] +=this.firstX;
+          }
+        }
+
+        /*if(this.finalConsonant)
+        {
+          for(var i=0; i<this.finalConsonant.boneData.length; i++){
+            this.finalConsonant.boneData.values[i][0] +=this.firstX;
+          }
+        }
+
+        */
+
+      }
+
+      this.setFirstY = function(y){
+        this.firstY = y;
+
+        if(this.consonant)
+        {
+          for(var i=0; i<this.consonant.boneData.length; i++){
+            // this.consonant.boneData[i].values[1] -= this.firstY;
+              this.consonant.initialBoneData.y[i] = this.consonant.initialBoneData.y[i] -  this.firstY;
+
+              this.consonant.boneData[i].values[1] = this.consonant.initialBoneData.y[i];
+
+          }
+        }
+
+
+        if(this.vowel)
+        {
+          for(var i=0; i<this.vowel.boneData.length; i++){
+            this.vowel.initialBoneData.y[i] = this.vowel.initialBoneData.y[i] -  this.firstY;
+
+            this.vowel.boneData[i].values[1] = this.vowel.initialBoneData.y[i];
+
+          }
+        }
+
+
+        /*if(this.finalConsonant)
+        {
+          for(var i=0; i<this.finalConsonant.boneData.length; i++){
+            this.finalConsonant.boneData.values[i][0] +=this.firstX;
+          }
+        }
+        */
+      }
+
+      this.getFirstX = function(){
+        return this.firstX;
+      }
+
+      this.getFirstY = function(){
+        return this.firstY;
+      }
+
+      this.changeWeight = function(weight)
+      {
+        this.consonant.changeWeight(weight);
+        this.vowel.changeWeight(weight);
+
+        /*if(this.finalConsonant) //받침이 있으면
+          this.finalConsonant.changeWeight(weight);*/
+      }
+
+      this.crossbarChange = function(cross){
+          this.vowel.crossbarChange(cross);
+          this.consonant.crossbarChange(cross);
+      }
+      /*this.setSize= function(size){
+        this.consonant.setSize(size);
+        this.vowel.setSize(size);
+        //this.finalConsonant.setSize(size);
+
+      };*/
+    }
+
+    var a = document.getElementById('king');
+    var b = document.getElementById('king2');
+    var c = document.getElementById('king3');
+    var weight = 50;
+    var cross;
+    var contrast_x = 1,contrast_y = 1;
+
+    var rk = new Character(r,k);
+    var rk2 = new Character(r,k);
+    a.addEventListener('input',function(){
+      //console.log(a.value);
+      weight= a.value;
+      //r.changeWeight(weight);
+      //r.changeWeight(weight);
+      rk.changeWeight(weight);
+
+    //  rk.changeWeight(weight);
+
+    },false);
+
+    b.addEventListener('input',function(){
+    //  var crossbar = b.value;
+      //r.crossbarChange(this.crossbar);
+      cross = b.value;
+    //  console.log(b.value);
+      rk.crossbarChange(cross);
+      //rk.setFirstY(1000);
+    },false);
+
+    c.addEventListener('input',function(){
+      if(c.value * 1 > 50){
+        contrast_x = c.value/50;
+        contrast_y = 1 / contrast_x;
+      }
+      else {
+        contrast_y = 100 - c.value / 50;
+        contrast_x = 1 / contrast_y;
+      }
+
+      rk.changeWeight(weight);
+
+    },false);
+      window.onload = function(){
+
+      rk.setFirstX(500);
+      rk.setFirstY(2000);
+      rk.changeWeight(50);
+
+      //r.changeWeight(50);
+    //  k.changeWeight(50);
+    //  rk2.setFirstX(800);
+    //  rk2.setFirstX(600);
+
+
+      // rk.setFirstX(300);
+      // rk.setFirstY(600);
+      // //rk.setSize(0.5);
+      // rk.changeWeight(50);
+      // rk2.changeWeight(50);
+
+
+      //console.log(r);
+      //console.log(k);
+
+    };
+
+  </script>
+
+</body>
+</html>

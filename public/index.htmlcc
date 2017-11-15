@@ -1,0 +1,785 @@
+
+ <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+ <script src = "path-data-polyfill.js"></script>
+<!-- <script src = "jquery-3.1.0.min.js"></script> -->
+<script src="jquery-3.1.0.js"></script>
+<script src ="enToKo.js"></script>
+<script src ="koToEn.js"></script>
+<script src ="changeWeight.js"></script>
+<script src = "pushCrossbarStem.js"></script>
+<script src = "changeLength.js"></script>
+<script src = "Character.js"></script>
+<script src = "Letter.js"></script>
+<script src = "d3.min.js"></script>
+<script src = "server.js"></script>
+<script src = "makefont.js"></script>
+
+<link rel="stylesheet" type="text/css" href="slider.css">
+<link rel="stylesheet" type="text/css" href="loading.css">
+<!-- <link rel="stylesheet" type="text/css" href="button.css"> -->
+
+<script type="text/javascript">
+
+
+
+$("body").load("LetterData.html .svg");
+
+</script>
+
+<style>
+.button {
+  -moz-box-shadow:inset 0px 1px 0px 0px #cae3fc;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #cae3fc;
+  box-shadow:inset 0px 1px 0px 0px #cae3fc;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #4197ee) );
+  background:-moz-linear-gradient( center top, #79bbff 5%, #4197ee 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#4197ee');
+  background-color:#79bbff;
+  -webkit-border-top-left-radius:6px;
+  -moz-border-radius-topleft:6px;
+  border-top-left-radius:6px;
+  -webkit-border-top-right-radius:6px;
+  -moz-border-radius-topright:6px;
+  border-top-right-radius:6px;
+  -webkit-border-bottom-right-radius:6px;
+  -moz-border-radius-bottomright:6px;
+  border-bottom-right-radius:6px;
+  -webkit-border-bottom-left-radius:6px;
+  -moz-border-radius-bottomleft:6px;
+  border-bottom-left-radius:6px;
+  text-indent:0;
+  border:1px solid #469df5;
+  display:inline-block;
+  color:#ffffff;
+  font-family: Helvetica;
+  font-size:15px;
+  font-weight:bold;
+  font-style:normal;
+  height:40px;
+  line-height:40px;
+  width:100px;
+  text-decoration:none;
+  text-align:center;
+  text-shadow:1px 1px 0px #287ace;
+  /*float: left;*/
+  margin-left: 200px;
+  margin-top: 0px;
+}
+.button:hover {
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4197ee), color-stop(1, #79bbff) );
+  background:-moz-linear-gradient( center top, #4197ee 5%, #79bbff 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4197ee', endColorstr='#79bbff');
+  background-color:#4197ee;
+}
+
+.button:active {
+  position:relative;
+  top:1px;
+}
+
+#btn1 {
+  z-index: 1;
+  /*position: relative;*/
+}
+
+#btn2 {
+  z-index: 2;
+  /*margin-left: -20;*/
+}
+
+</style>
+
+
+
+
+<style>
+/*    .button {
+      background-color: #edf9fd;
+      border: none;
+      text-align: center;
+      font-size: 50px;
+      font-family: Helvetica;
+      padding: 10px 50px;
+    }*/
+
+
+
+
+
+
+</style>
+
+
+<style>
+  .svg{ position :absolute; z-index: 1;}
+
+  /*#textInput{position :fixed; z-index: 2;top:200px; right:10px}*/
+  /*#textSubmit{position :fixed; z-index: 2;top:200px; right:10px}*/
+
+</style>
+
+
+
+</head>
+<body>
+ <form action="/save/" method="post">
+   <textarea name="save"></textarea>
+   <input type="submit">
+ </form>
+
+<!-- <div class="loading-container" style="position: relative;">
+    <div class="loading"></div>
+    <div id="loading-text">Converting</div>
+</div> -->
+
+  <svg class = "svg" version="1.1"
+      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+      height ="0" x="0" y="0" viewBox="0 0 1200 1200" enable-background="new 0 0 612 612" fill-rule="evenodd" xml:space="default" fill-rule="evenodd" transform="translate(0,0)" >
+    <defs>
+
+      <!-- 자음 -->
+
+    <!-- ㄱ -->
+    <path stroke="white" stroke-width="2"fill="none" id= "r_bone" fill-rule="evenodd" transform="translate(0,0)"
+       d= "M89 776 L303.33 776 L303.33 502" />
+    <!-- <path stroke="blue" stroke-width="2"fill="none" id= "r_boneOutput" fill-rule="evenodd" transform="translate(0,0)"
+      d= "M89 776 L303.33 776 L303.33 502" /> -->
+    <path stroke="blue" stroke-width="2"fill="none" id= "r_boneOutput" fill-rule="evenodd" transform="translate(0,0)"
+      d= "M89 763 L290 763 L290 502 L290 502 L290 763 L89 763 Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "r_outline" fill-rule="evenodd" transform="translate(0,0)"
+       d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㄴ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "s_bone"
+        d= "M90 762 L90 514 L291 514" />
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "s_boneOutput"
+        d= "M90 762 L90 514 L291 514" /> -->
+    <path stroke="black" stroke-width="2"fill="black" id= "s_boneOutput"
+        d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+    <path stroke="black" stroke-width="2"fill="black" id= "s_outline"
+        d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅋ -->
+    <path stroke="white" stroke-width="2" fill="none" id="z_bone" d="M89 776 L303.33 776 L303.33 502 M89 618 L303.33 618" />
+
+    <!-- <path stroke="white" stroke-width="2" fill="none" id="z_boneOutput" d="M89 776 L303.33 776 L303.33 502 M89 618 L303.33 618" /> -->
+    <path stroke="black" stroke-width="2" fill="none" id="z_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="black" stroke-width="2" fill="none" id="z_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅌ -->
+    <path stroke="white" stroke-width="2" fill="none" id="x_bone" d="M291.5 777 L90 777 L90 488 L291.5 488 M90 636.5 L291.5 636.5" />
+
+    <!-- <path stroke="white" stroke-width="2" fill="none" id="x_boneOutput" d="M291.5 777 L90 777 L90 488 L291.5 488 M90 636.5 L291.5 636.5" /> -->
+    <path stroke="black" stroke-width="2" fill="none" id="x_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="black" stroke-width="2" fill="none" id="x_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+
+    <!-- ㄷ -->
+    <path stroke="white" stroke-width="2" fill="none" id="e_bone" d="M289 776 L90 776 L90 488 L291 488" />
+    <!-- <path stroke="white" stroke-width="2" fill="none" id="e_bone" d="M289 763 L90 763 L90 501 L291 501" /> -->
+    <!-- <path stroke="white" stroke-width="2" fill="none" id="e_boneOutput" d="M289 776 L90 776 L90 488 L291 488" /> -->
+
+    <path stroke="black" stroke-width="2" fill="none" id="e_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="black" stroke-width="2" fill="none" id="e_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㄹ -->
+    <path stroke="white" stroke-width="2" fill="none" id="f_bone" d="M89 776 L290 776 L290 637.5 L91 637.5 L91 488 L291.5 488" />
+
+    <!-- <path stroke="white" stroke-width="2" fill="none" id="f_boneOutput" d="M89 776 L290 776 L290 637.5 L91 637.5 L91 488 L291.5 488" /> -->
+    <path stroke="black" stroke-width="2" fill="none" id="f_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="black" stroke-width="2" fill="none" id="f_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅁ -->
+    <path stroke="white" stroke-width="2" fill="none" id="a_bone" d="M90 776 L290 776 L290 488 L90 488 Z" />
+
+    <!-- <path stroke="white" stroke-width="2" fill="none" id="a_boneOutput" d="M90 776 L290 776 L290 488 L90 488 Z" /> -->
+    <path stroke="black" stroke-width="2" fill="black" id="a_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="black" stroke-width="2" fill="black" id="a_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅂ -->
+    <path stroke="none" stroke-width="2" fill="none" id="q_bone" d="M90 762 L90 488 L290 488 L290 762 M90 671 L290 671" />
+
+    <!-- <path stroke="none" stroke-width="2" fill="none" id="q_boneOutput" d="M90 762 L90 488 L290 488 L290 762 M90 671 L290 671" /> -->
+    <path stroke="black" stroke-width="2" fill="black" id="q_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="black" stroke-width="2" fill="black" id="q_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+    <!--ㅅ-->
+    <path stroke="white" stroke-width="2" fill="none" id="t_bone" d="M73.7 476.7 L211 757.3 L348.3 476.7" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="t_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="t_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- original outline of ㅅ
+    <path stroke="white" stroke-width="2" fill="none" id="t_outline" d="M50 487 L211 816 L372 487 L301 456 L211 639.9 L121 456 Z" />
+    -->
+    <!-- ㅇ -->
+    <path stroke="white" stroke-width="2" fill="none" id="d_bone" d="M218,508.7 C288,508.7 344.8,565.5 344.8,635.5 C344.8,705.5 288,762.3 218,762.3 C148,762.3 91.2,705.5 91.2,635.5 C91.2,565.5 148,508.7 218,508.7" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="d_boneOutput" d="M 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0  0 0 L 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 Z " />
+
+    <path stroke="white" stroke-width="2" fill="none" id="d_outline" d="M 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0  0 0 L 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 Z" />
+
+    <!-- ㅈ -->
+    <path stroke="white" stroke-width="2" fill="none" id="w_bone" d="M73.7 467.7 L211 757.3 L348.3 467.7 M111 757.3 L311 757.3" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="w_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 M0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="w_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 M0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅊ -->
+    <path stroke="white" stroke-width="2" fill="none" id="c_bone" d="M73.7 472.7 L211 698.7 L348.3 472.7 M111 698.7 L311 698.7 M157.5 792.5 L278.5 792.5" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="c_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 M0 0 L0 0 L0 0 L0 0 M0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="c_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 M0 0 L0 0 L0 0 L0 0 M0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅍ -->
+
+    <path stroke="blue" stroke-width="2" fill="none" id="v_bone" d="M90 776 L296 776 M90 488 L296 488 M132 776 L132 488 M254 776 L254 488" />
+
+    <!-- <path stroke="blue" stroke-width="2" fill="none" id="v_boneOutput" d="M90 776 L296 776 M90 488 L296 488 M132 776 L132 488 M254 776 L254 488" /> -->
+    <path stroke="black" stroke-width="2" fill="black" id="v_boneOutput" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <path stroke="black" stroke-width="2" fill="black" id="v_outline" d="M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅎ -->
+    <path stroke="white" stroke-width="2" fill="none" id="g_bone" d= "M210,482 C270,482 318,530 318,590 C318,650 270,698 210,698 C150,698 102,650 102,590 C102,530 150,482 210,482 M 87.6 696.5 L 332.5 696.5 M 148.5 799.5 L 275.5 799.5 Z" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="g_boneOutput" d= "M 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 L 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 M 0 0 L 0 0 L 0 0 L 0 0 L 0 0 M 0 0 L 0 0 L 0 0 L 0 0 L 0 0 Z" />
+
+    <path stroke="white" stroke-width="2" fill="none" id="g_outline" d="M 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0  0 0 L 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 C 0 0 0 0 0 0 M 0 0 L 0 0 L 0 0 L 0 0 L 0 0 M 0 0 L 0 0 L 0 0 L 0 0 L 0 0 Z" />
+
+    <!-- 모음 -->
+    <!-- ㅏ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "k_bone"
+      d= "M507 809 L507 243 M507 611 L618 611 "/>
+    <!-- <path stroke="blue" stroke-width="2"fill="none" id= "k_boneOutput"
+      d= "M507 809 L507 243 M507 611 L618 611 "/> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "k_boneOutput"
+      d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "k_outline"
+      d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+
+    <!-- ㅑ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "i_bone"
+         d= "M507 809 L507 243 M507 691 L618 691 M507 542 L618 542"/>
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "i_boneOutput"
+         d= "M507 809 L507 243 M507 691 L618 691 M507 542 L618 542"/> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "i_boneOutput"
+        d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "i_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+
+    <!-- ㅓ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "j_bone" d= "M480 809 L480 243 M369 611 L480 611"/>
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "j_boneOutput"
+         d= "M369 611 L480 611" /> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "j_boneOutput"
+        d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "j_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+
+    <!-- ㅕ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "u_bone"
+         d= "M480 809 L480 243 M369 691 L480 691 M369 542 L480 542"/>
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "u_boneOutput"
+         d= "M369 691 L480 691" /> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "u_boneOutput"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "u_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅗ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "h_bone"
+         d= "M88.5 332.5 L331.5 332.5 M210 453 L210 332.5"/>
+    <!-- <path stroke="none" stroke-width="2"fill="none" id= "h_boneOutput"
+         d= "M88.5 332.5 L331.5 332.5 M210 453 L210 332.5" /> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "h_boneOutput"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "h_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+
+    <!-- ㅛ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "y_bone"
+         d= "M89 332 L331 332 M149.5 453.5 L149.5 332 M270.5 453.5 L270.5 332"/>
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "y_boneOutput"
+         d= "M89 332 L331 332 M149.5 453.5 L149.5 332 M270.5 453.5 L270.5 332"/> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "y_boneOutput"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "y_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅜ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "n_bone"
+         d= "M89 363 L331 363 M210 243 L210 363"/>
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "n_boneOutput"
+         d= "M89 363 L331 363 M210 243 L210 363"/> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "n_boneOutput"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "n_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0Z" />
+
+    <!-- ㅠ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "b_bone"
+         d= "M89 363 L331 363 M149.5 242 L149.5 363 M270.5 242 L270.5 363"/>
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "b_boneOutput"
+         d= "M89 363 L331 363 M149.5 242 L149.5 363 M270.5 242 L270.5 363"/> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "b_boneOutput"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "b_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅡ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "m_bone"
+         d= "M88 350 L332 350"/>
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "m_boneOutput"
+         d= "M88 350 L332 350"/> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "m_boneOutput"
+         d= "M0 0 L0 0 L0 0 L0 0 Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "m_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 Z" />
+
+    <!-- ㅣ -->
+    <path stroke="red" stroke-width="2"fill="none" id= "l_bone"
+         d= "M507 809 L507 243"/>
+    <!-- <path stroke="red" stroke-width="2"fill="none" id= "l_boneOutput"
+         d= "M507 809 L507 243"/> -->
+    <path stroke="black" stroke-width="2"fill="none" id= "l_boneOutput"
+         d= "M0 0 L0 0 L0 0 L0 0 Z" />
+    <path stroke="black" stroke-width="2"fill="none" id= "l_outline"
+         d= "M0 0 L0 0 L0 0 L0 0 Z" />
+
+
+<!-- 이 부분 지운다 -->
+
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 13.0.0, SVG Export Plug-In  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+   <!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+
+<!-- 여기까지 지운다 -->
+
+
+</head>
+
+<body>
+
+      <div id="title">Font</div>
+
+      <div id="slider" style="position: relative;">
+     <table id="slider_table" border="1">
+<!--       <tr class="Attribute">
+        <th ></th>
+      </tr> -->
+
+        <tr>
+           <th>
+             <form action="">Weight
+               <input type="range" id = "weightRange" />
+             </form>
+           </th>
+        </tr>
+
+<!--         <tr class="Attribute">
+          <th></th>
+        </tr> -->
+
+        <tr>
+           <th>
+             <form action="">Crossbar
+               <input type="range" id = "crossbarRange" />
+             </form> 
+           </th>
+       </tr>
+
+<!--        <tr class="Attribute">
+        <th></th>
+       </tr> -->
+
+       <tr>
+           <th>
+             <form action="">Contrast
+               <input type="range" id = "contrastRange" />
+             </form>
+           </th>
+       </tr>
+
+<!--        <tr class="Attribute">
+         <th></th>
+       </tr> -->
+       <tr>
+           <th>
+             <form action="">Length
+               <input type="range" id = "lengthRange" />
+             </form>
+           </th>
+       </tr>
+
+<!--        <tr class="Attribute">
+         <th></th>
+       </tr> -->
+       <tr>
+           <th>
+             <form action="">Slant
+               <input type="range" id = "slantRange" />
+             </form>
+           </th>
+       </tr>
+
+<!--        <tr class="Attribute">
+        <th></th>
+       </tr> -->
+       <tr>
+           <th>
+             <form action="">CenterLine
+               <input type="range" id = "centerLine" value="0" />
+             </form>
+           </th>
+       </tr>
+
+     </table>
+
+   <div class="btn" style="position:relative; top:0px; left:0px; width:400px; height:50px; overflow:hidden;">
+   <div style="position:absolute; top:0px; left:0px; z-index:3;">
+      <input type="button" class="button" value="Download" id="btn1" onclick="getFileDown()" />
+    </div>
+
+    <div id="flip" style="position:absolute; top:0px; left:0px; z-index:4;">
+      <input type="button" class="button" value="Convert" id="btn2" onclick="conversion()" />
+    </div>
+
+
+  </div>  
+
+<!--            <div class="btn">
+    <input type="button" class="button" value="Download" id="btn1" onclick="getFileDown()" />
+
+    <input type="button" class="button" value="Convert" id="btn2" onclick="conversion()" />
+  </div> -->
+
+    </div>
+
+
+
+    <div>
+      <table id="letter_table" border="1" style="table-layout:fixed">
+        <tr>
+          <th>A</th>
+          <th>B</th>
+          <th>C</th>
+          <th>D</th>
+          <th>E</th>
+        </tr>
+
+        <tr>
+          <th>F</th>
+          <th>G</th>
+          <th>H</th>
+          <th>I</th>
+          <th>J</th>
+        </tr>
+
+        <tr>
+          <th>K</th>
+          <th>L</th>
+          <th>M</th>
+          <th>N</th>
+          <th>O</th>
+        </tr>
+
+        <tr>
+          <th>P</th>
+          <th>Q</th>
+          <th>R</th>
+          <th>S</th>
+          <th>T</th>
+        </tr>
+
+        <tr>
+          <th class="input" colspan="5">
+                 <form action="">
+      입력:<input type="text" id="textInput" />
+      <input type="submit" id="textSubmit" />
+      </form> 
+
+
+          </th>
+
+        </tr>
+      </table>
+    </div>
+  
+
+<!--    <div class="btn" style="position:relative; top:0px; left:0px; width:400px; height:200px; overflow:hidden;">
+   <div style="position:absolute; top:0px; left:0px; z-index:4;">
+      <input type="button" class="button" value="Download" id="btn1" onclick="getFileDown()" />
+    </div>
+
+    <div style="position:absolute; top:0px; left:0px; z-index:2;">
+      <input type="button" class="button" value="Convert" id="btn2" onclick="conversion()" />
+    </div>
+  </div> -->
+
+
+  <script>
+    window.onload = function() {
+
+    }
+
+    function getFileDown()  {
+      var txt = document.getElementById("txt");
+      window.location = '/download/' + 'zip.tar';
+    }
+    
+    function conversion() {
+      var whatisthis = document.getElementById("what");
+
+      window.location='/convert/';
+      alert("Hello");
+    }
+
+    var fileDownButton = document.getElementById("btn2");
+    fileDownButton.addEventListener('click',function(){
+      //console.log(a.value);
+      fileDownButton.value = 'download';
+      fileDownButton.id = 'btn1';
+       var flipper = document.getElementById("flip");
+        flipper.style.zIndex = '2'; 
+
+        setTimeout(function () {
+          window.location ='/download/' + 'zip.tar';
+        }, 13000);
+ 
+        // window.location='/';
+
+    },false);
+
+    // function save() {
+    //   window.location = '/save/' + "abc";
+    //   alert("BBB");
+    // }
+
+    // var flipper = document.getElementById("flip");
+    // flipper.addEventListener('click', function() {
+    //   flipper.z-index = '2';
+    // }, false);
+  </script>
+
+
+
+
+  <script type="text/javascript">
+
+  var consonantArray = ['r','s','e','f','a','q','t','d','w','c','z','x','v','g','R','W','E','Q','T'];
+  var vowelArray = ['k','i','j','u','h','y','n','b','m','l','o','p','O','P'];
+
+    var letterUseCount = {};
+    letterUseCount.r =0;
+    letterUseCount.s =0;
+    letterUseCount.e =0;
+    letterUseCount.f =0;
+    letterUseCount.a =0;
+    letterUseCount.q =0;
+    letterUseCount.t =0;
+    letterUseCount.d =0;
+    letterUseCount.w =0;
+    letterUseCount.z =0;
+    letterUseCount.x =0;
+    letterUseCount.v =0;
+    letterUseCount.c =0;
+    letterUseCount.g =0;
+
+    letterUseCount.k =0;
+    letterUseCount.i =0;
+    letterUseCount.j =0;
+    letterUseCount.u =0;
+    letterUseCount.h =0;
+    letterUseCount.y =0;
+    letterUseCount.n =0;
+    letterUseCount.b =0;
+    letterUseCount.m =0;
+    letterUseCount.l =0;
+
+ var firstLetterArray = ['r','R','s','e','E','f','a','q','Q','t','T','d','w','W','c','z','x','v','g'];
+  var middleLetterArray = ['k','o','i','O','j','p','u','P','h','hk','ho','hl','y','n','nj','np','nl','b','m','ml','l'];
+  var finalLetterArray = ['','r','R','rt','s','sw','sg','e','f','fr','fa','fq','ft','fx','fv','fg','a','q','qt','t','T','d','w','c','z','x','v','g'];
+
+
+
+
+
+
+
+
+
+
+
+
+    var weightBar = document.getElementById('weightRange');
+    var crossbarBar = document.getElementById('crossbarRange');
+    var contrastBar = document.getElementById('contrastRange');
+    var lengthBar = document.getElementById('lengthRange');
+    var slantBar = document.getElementById('slantRange');
+    var centerLineBar = document.getElementById('centerLine');
+
+
+    var characterArray = [];
+    var stuffArray = [];
+
+    function addString(str){
+      console.log("aaa");
+      for(var i=0;i<str.length;i++)
+      {
+        characterArray.push(new Character(str.charAt(i)));
+      }
+    }
+
+    addString("배");
+    //characterArray.push(rk);
+
+
+    var weight =50;
+    var length =50;
+    var contrast_x =1;   //전역변수
+    var contrast_y =1;
+    var slant = 50;
+    var centerLine =0;
+    weightBar.addEventListener('input',function(){
+      //console.log(a.value);
+      weight= weightBar.value;
+
+      for(var i =0; i<characterArray.length; i++)
+        characterArray[i].changeWeight(weight);
+
+    },false);
+
+    crossbarBar.addEventListener('input',function(){
+      //console.log(a.value);
+      crossbar= crossbarBar.value;
+
+      for(var i =0; i<characterArray.length; i++)
+        characterArray[i].crossbarChange(crossbar);
+
+    },false);
+
+
+    lengthBar.addEventListener('input',function(){
+      //console.log(a.value);
+      length= lengthBar.value;
+
+      for(var i =0; i<characterArray.length; i++)
+        characterArray[i].changeLength(length);
+
+    },false);
+
+    contrastBar.addEventListener('input',function () {
+      if(contrastBar.value * 1 > 50){
+        contrast_x = contrastBar.value/50;
+        contrast_y = 1 / contrast_x;
+      }
+      else {
+        contrast_y = (100 - contrastBar.value) / 50;
+        contrast_x = 1 / contrast_y;
+      }
+      for(var i =0; i<characterArray.length; i++)
+        characterArray[i].changeWeight(weight);
+
+    },false);
+
+    slantBar.addEventListener('input',function(){
+      //console.log(a.value);
+      slant = (slantBar.value-50)/3;
+
+      for(var i =0; i<characterArray.length; i++)
+        characterArray[i].changeSlant(slant);
+
+    },false);
+
+    centerLineBar.addEventListener('input',function(){
+      centerLine = centerLineBar.value;
+
+      for(var i =0; i<characterArray.length; i++)
+      {
+          characterArray[i].consonant.boneOutputElement.setAttribute("stroke","black");
+          characterArray[i].consonant.boneOutputElement.setAttribute("stroke-width","1");
+          characterArray[i].vowel.boneOutputElement.setAttribute("stroke","black");
+          characterArray[i].vowel.boneOutputElement.setAttribute("stroke-width","1");
+          if(characterArray[i].finalConsonant)
+          {  characterArray[i].finalConsonant.boneOutputElement.setAttribute("stroke-width","1");
+          characterArray[i].finalConsonant.boneOutputElement.setAttribute("stroke","black");
+          }
+      }
+      for(var i =0; i<characterArray.length; i++)
+        characterArray[i].changeWeight(weight);
+
+    //  console.log(rk.consonant.boneData);
+    //  rk.changeWeight(weight);
+    //rk.consonant.setSize();
+    //rk.consonant.boneElement.setPathData(rk.consonant.boneData);
+
+    },false);
+
+
+    </script>
+
+
+
+    <script>
+
+      var inputTest = document.getElementById("textInput");
+      var submitTest =  document.getElementById("textSubmit");
+      inputTest.addEventListener("input", function(){
+        //alert(characterArray.length);
+        //alert("wow");
+      //  characterArray.push(new Character(inputTest.value.charAt(inputTest.value.length-1)));
+
+      for(var i =0; i<characterArray.length; i++)
+      {
+        characterArray[i].deleteElement();
+      }
+      while(characterArray.length > 0)
+        characterArray.pop();
+
+        addString(inputTest.value);
+
+
+        for(var i =0; i<characterArray.length; i++){
+          characterArray[i].setFirstX((i%5)*1000);
+          characterArray[i].setFirstY(Math.floor(i/5)*1000);
+        }
+
+        for(var i =0; i<characterArray.length; i++)
+          characterArray[i].changeWeight(50);
+
+        // console.log(inputTest.value);
+      }, false);
+
+    window.onload = function(){
+
+      for(var i =0; i<characterArray.length; i++){
+        characterArray[i].setFirstX((i%5)*1000);
+        characterArray[i].setFirstY(Math.floor(i/5)*1000);
+      }
+
+      for(var i =0; i<characterArray.length; i++)
+        characterArray[i].changeWeight(50);
+      var result1 = makeupStuff();
+
+    };
+
+  </script>
+
+
+
+</body>
+</html>

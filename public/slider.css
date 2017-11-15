@@ -1,0 +1,154 @@
+<style>
+
+    * {
+      /*background-color: #C1E3FF;*/
+    }
+
+    input[type=range] {
+        width: 150%;
+    }
+
+    input[type=range]{
+    -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 40px;
+    height: 3px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: #eDF9FD;
+    margin-top: -12px;
+    box-shadow: 2px 2px #cdcdcd;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    -webkit-appearance: none;
+    border: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: #edffff;
+    margin-top: -12px;
+    box-shadow: 2px 2px #cdcdcd;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #eDF9FD;
+}
+/*    #title {
+      font-size: 80px;
+      text-align: center;
+      font-family: Helvetica;
+      margin: 50px;
+
+    }*/
+
+    #slider {
+      width: 400px;
+      height: 100%;
+      font-family: Helvetica;
+      font-size: 20px;
+      text-align: left;
+      float: left;
+      /*padding-top: 30px;*/
+      /*padding-bottom: 30px;*/
+      border: 0px solid;
+      /*color: black;*/
+      /*background-color: #eeeeff;*/
+      border-spacing: 0.5rem;
+      /*border-collapse: collapse;*/
+      top: 220px;
+    }
+
+    #slider_table {
+      border-color: transparent;
+    }
+
+
+
+
+/*     .Attribute {
+
+      margin: 40px;
+      padding: 30px;
+    }*/
+
+    #slider_table tr > th {
+        margin: 40px;
+        padding: 32px 100px;
+        /*border: 0px;*/
+    }
+
+    #letter_table {
+
+      margin: 0px 40px;
+      /*padding: 20px;*/
+      font-family: Helvetica;
+      font-size: 50px;
+      width: 1100px;
+      height: 900px;
+      /*float: right;*/
+      top: 270px;
+
+    }
+
+    #savior_form{
+      position:absolute;
+      visibility:hidden;
+    }
+
+    #slider{
+      position:absolute;
+      z-index: 3;
+    }
+
+
+    #letter_table2{
+      position: absolute;
+      z-index: 1;
+      width:
+      left: 470px;
+    }
+    #letter_table{
+      position: absolute;
+
+      left: 470px;
+    }
+
+    #letter_table th {
+      padding: 40px 50px;
+            border-style: solid;
+            border-color: #eDF9FD;
+            border-width: thin;
+            background-color: white;
+    }
+
+    #letter_table {
+      padding: 10px;
+      background-color: #eDF9FD;
+      border-color: transparent;
+    }
+
+          #input {
+    float: center;
+    text-align: left;
+    margin: 0px;
+    padding: 0px;
+    column-span: 5;
+  }
+
+</style>
